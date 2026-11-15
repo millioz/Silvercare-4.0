@@ -1,0 +1,1187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILVERCARE — Smart Medication System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #050a13;
+  --panel: #0b1524;
+  --cyan: #55dfff;
+  --blue: #398cff;
+  --text: #f3f8ff;
+  --muted: #8ba2b9;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+/* BACKGROUND */
+
+.background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(90,180,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90,180,255,.035) 1px, transparent 1px);
+  background-size: 55px 55px;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+.glow {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  filter: blur(130px);
+  opacity: .15;
+}
+
+.glow.one {
+  background: #087cff;
+  top: -250px;
+  left: -150px;
+}
+
+.glow.two {
+  background: #00d9ff;
+  right: -250px;
+  top: 400px;
+}
+
+/* HEADER */
+
+header {
+  max-width: 1400px;
+  margin: auto;
+  padding: 28px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.logo-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: #06111d;
+  font-size: 20px;
+  background: linear-gradient(135deg, #fff, #55dfff);
+}
+
+.header-label {
+  color: #8caac1;
+  font-size: 10px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background: #55e6ae;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #55e6ae;
+}
+
+/* HERO */
+
+.hero {
+  max-width: 1400px;
+  min-height: 570px;
+  margin: auto;
+  padding: 65px 8% 100px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 35px;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid rgba(85,223,255,.22);
+  background: rgba(85,223,255,.06);
+  color: #78e8ff;
+  border-radius: 30px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 35px;
+}
+
+.hero-title {
+  font-size: clamp(70px, 10vw, 130px);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -8px;
+}
+
+.silver {
+  display: block;
+  color: #f6f9ff;
+}
+
+.care {
+  display: block;
+  background: linear-gradient(100deg,#fff,#83eaff,#399bff,#7d8aff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(50,190,255,.22));
+}
+
+.care span {
+  color: #55dfff;
+  -webkit-text-fill-color: #55dfff;
+}
+
+.hero-subtitle {
+  margin-top: 32px;
+  color: #b4d5eb;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 6px;
+}
+
+.hero-description {
+  max-width: 480px;
+  margin-top: 20px;
+  line-height: 1.9;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.tech-tags span {
+  padding: 9px 12px;
+  border: 1px solid rgba(100,190,255,.16);
+  border-radius: 7px;
+  color: #a6d8ed;
+  font-size: 9px;
+  letter-spacing: 1px;
+  background: rgba(100,190,255,.04);
+}
+
+/* CSS MEDICINE BOX VISUAL */
+
+.hero-visual {
+  position: relative;
+  height: 390px;
+  display: grid;
+  place-items: center;
+}
+
+.orbit {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border: 1px solid rgba(85,223,255,.18);
+  border-radius: 50%;
+  transform: rotateX(65deg);
+  box-shadow: 0 0 40px rgba(30,160,255,.08);
+}
+
+.orbit.second {
+  width: 390px;
+  height: 390px;
+  border-color: rgba(85,223,255,.08);
+}
+
+.box-model {
+  position: relative;
+  width: 235px;
+  height: 210px;
+  transform: perspective(800px) rotateY(-12deg) rotateX(5deg);
+  filter: drop-shadow(0 30px 45px rgba(0,130,255,.22));
+}
+
+.box-lid {
+  height: 36px;
+  background: linear-gradient(135deg,#e7f8ff,#80cde9,#b8edff);
+  border-radius: 15px 15px 5px 5px;
+  box-shadow: inset 0 3px 5px rgba(255,255,255,.8);
+}
+
+.box-body {
+  height: 150px;
+  border-radius: 5px 5px 22px 22px;
+  background: linear-gradient(135deg,#183d5d,#0c1c30 55%,#102a44);
+  border: 1px solid rgba(120,220,255,.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  position: relative;
+  overflow: hidden;
+}
+
+.box-body:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #55dfff;
+  top: 0;
+  box-shadow: 0 0 15px #55dfff;
+}
+
+.box-screen {
+  width: 135px;
+  padding: 12px 8px;
+  background: #06141e;
+  border: 1px solid rgba(85,223,255,.7);
+  border-radius: 7px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(85,223,255,.14);
+}
+
+.box-screen strong {
+  display: block;
+  color: #55dfff;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.box-screen small {
+  display: block;
+  color: #a7d8e8;
+  margin-top: 6px;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.box-brand {
+  color: #9bdcf0;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.visual-label {
+  position: absolute;
+  padding: 11px 14px;
+  border: 1px solid rgba(85,223,255,.2);
+  background: rgba(7,19,33,.9);
+  border-radius: 9px;
+  color: #b5ddeb;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.label-left {
+  left: 0;
+  top: 80px;
+}
+
+.label-right {
+  right: 0;
+  bottom: 75px;
+}
+
+/* GALLERY */
+
+.gallery {
+  max-width: 1400px;
+  margin: auto;
+  padding: 35px 6% 100px;
+}
+
+.gallery-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 35px;
+}
+
+.kicker {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.gallery-heading h2 {
+  font-size: 34px;
+  margin-top: 12px;
+  letter-spacing: -1.5px;
+}
+
+.gallery-heading h2 span {
+  color: var(--cyan);
+}
+
+.gallery-heading p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chapter-count {
+  text-align: right;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.chapter-count strong {
+  display: block;
+  color: white;
+  font-size: 35px;
+  letter-spacing: 0;
+}
+
+.slide-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 22px;
+}
+
+.slide-card {
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  color: white;
+  background: linear-gradient(145deg,#101f31,#091321);
+  border: 1px solid rgba(130,190,230,.13);
+  border-radius: 15px;
+  transition: .35s;
+}
+
+.slide-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(85,223,255,.6);
+  box-shadow: 0 15px 45px rgba(0,140,255,.13);
+}
+
+.card-image {
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  background: #142438;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .72;
+  transition: .5s;
+}
+
+.slide-card:hover img {
+  transform: scale(1.07);
+  opacity: 1;
+}
+
+.card-image:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent,rgba(5,10,19,.65));
+}
+
+.card-number {
+  position: absolute;
+  z-index: 2;
+  top: 15px;
+  left: 15px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.card-info {
+  padding: 20px;
+}
+
+.card-info span {
+  color: var(--cyan);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.card-info h3 {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.card-info p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* MODAL */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(1,5,12,.88);
+  backdrop-filter: blur(12px);
+}
+
+.modal-window {
+  position: relative;
+  z-index: 1;
+  width: min(1050px,100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #0a1422;
+  border: 1px solid rgba(85,223,255,.22);
+  border-radius: 18px;
+  box-shadow: 0 25px 100px rgba(0,0,0,.55);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 25px;
+  border-bottom: 1px solid rgba(130,190,230,.12);
+}
+
+.modal-logo {
+  color: #9adff1;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.close-btn {
+  border: 0;
+  color: #c5d8e8;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.progress-track {
+  height: 3px;
+  background: #14263a;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 10%;
+  background: linear-gradient(90deg,#55dfff,#398cff);
+  transition: .3s;
+}
+
+.slide-content {
+  padding: 35px;
+}
+
+.slide-label {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.slide-title {
+  font-size: clamp(27px,4vw,42px);
+  line-height: 1.15;
+  margin-top: 13px;
+  letter-spacing: -1.5px;
+}
+
+.slide-subtitle {
+  color: #9db2c6;
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.8;
+}
+
+.slide-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 28px;
+  align-items: start;
+}
+
+.slide-image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(85,223,255,.15);
+}
+
+.slide-points {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.point {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(130,190,230,.12);
+  background: rgba(255,255,255,.025);
+  border-radius: 10px;
+  color: #bdccda;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.point:before {
+  content: "✦";
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.key-fact {
+  margin-top: 28px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--cyan);
+  border-radius: 5px;
+  background: rgba(85,223,255,.06);
+}
+
+.key-fact strong {
+  display: block;
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.key-fact p {
+  color: #d6e6f2;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 25px;
+  border-top: 1px solid rgba(130,190,230,.12);
+}
+
+.nav-btn {
+  border: 1px solid rgba(85,223,255,.3);
+  border-radius: 8px;
+  padding: 11px 18px;
+  color: #c7edfa;
+  background: rgba(85,223,255,.06);
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background: rgba(85,223,255,.17);
+}
+
+.nav-btn:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+.page-number {
+  color: #8299ad;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+footer {
+  padding: 30px 6%;
+  text-align: center;
+  color: #637b91;
+  font-size: 10px;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(130,190,230,.1);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 45px;
+  }
+
+  .hero-visual {
+    height: 330px;
+  }
+
+  .slide-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media(max-width:560px) {
+  header {
+    padding: 20px;
+  }
+
+  .header-label {
+    font-size: 8px;
+  }
+
+  .hero {
+    padding: 45px 22px 70px;
+  }
+
+  .hero-title {
+    font-size: 78px;
+    letter-spacing: -5px;
+  }
+
+  .hero-subtitle {
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+
+  .gallery {
+    padding: 25px 18px 70px;
+  }
+
+  .gallery-heading h2 {
+    font-size: 27px;
+  }
+
+  .slide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-image {
+    height: 210px;
+  }
+
+  .slide-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .slide-content {
+    padding: 22px;
+  }
+
+  .slide-image {
+    height: 210px;
+  }
+
+  .modal {
+    padding: 8px;
+  }
+
+  .modal-window {
+    max-height: 95vh;
+  }
+
+  .page-number {
+    display: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+  <div class="grid"></div>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">S</div>
+    SILVERCARE
+  </div>
+  <div class="header-label">
+    <span class="dot"></span>
+    PROJECT PRESENTATION
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div>
+    <div class="hero-tag">
+      <span class="dot"></span>
+      NEXT-GEN HEALTH TECHNOLOGY
+    </div>
+
+    <h1 class="hero-title">
+      <span class="silver">SILVER</span>
+      <span class="care">CARE<span>.</span></span>
+    </h1>
+
+    <h2 class="hero-subtitle">SMART MEDICATION SYSTEM</h2>
+
+    <p class="hero-description">
+      Intelligent medication assistance powered by ESP32,
+      OLED technology, a web dashboard, and Python analytics.
+      Designed to help users manage their daily medication routine.
+    </p>
+
+    <div class="tech-tags">
+      <span>ESP32</span>
+      <span>OLED DISPLAY</span>
+      <span>WEB DASHBOARD</span>
+      <span>PYTHON</span>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orbit"></div>
+    <div class="orbit second"></div>
+
+    <div class="box-model">
+      <div class="box-lid"></div>
+      <div class="box-body">
+        <div class="box-screen">
+          <strong>08:00</strong>
+          <small>MEDICATION READY</small>
+        </div>
+        <div class="box-brand">SILVERCARE</div>
+      </div>
+    </div>
+
+    <div class="visual-label label-left">SMART REMINDER</div>
+    <div class="visual-label label-right">ESP32 SYSTEM</div>
+  </div>
+
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+
+  <div class="gallery-heading">
+    <div>
+      <span class="kicker">PROJECT OVERVIEW</span>
+      <h2>Explore the <span>System</span></h2>
+      <p>Choose a chapter to discover the SilverCare project.</p>
+    </div>
+    <div class="chapter-count">
+      <strong>10</strong>
+      CHAPTERS
+    </div>
+  </div>
+
+  <div class="slide-grid" id="slideGrid"></div>
+
+</section>
+</main>
+
+<footer>
+  SILVERCARE SMART MEDICATION SYSTEM · ESP32 · PYTHON · 2026
+</footer>
+
+<!-- PRESENTATION MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-backdrop" id="backdrop"></div>
+
+  <div class="modal-window">
+
+    <div class="modal-header">
+      <div class="modal-logo">SILVERCARE PRESENTATION</div>
+      <button class="close-btn" id="closeBtn" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="slide-content" id="slideContent"></div>
+
+    <div class="modal-footer">
+      <button class="nav-btn" id="prevBtn">← Previous</button>
+      <span class="page-number" id="pageNumber">01 / 10</span>
+      <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const slides = [
+{
+  category:"INTRODUCTION",
+  title:"SilverCare Smart Medicine Reminder Box",
+  subtitle:"An integrated medication reminder system using ESP32, OLED, a web dashboard and Python analytics.",
+  image:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "Project: SilverCare Smart Medicine Reminder Box.",
+    "Hardware: ESP32 microcontroller and OLED display.",
+    "Web dashboard for monitoring medication status.",
+    "Python analytics for organizing and visualizing records.",
+    "Goal: support more consistent daily medication routines."
+  ],
+  fact:"SilverCare combines physical hardware, software and data analysis in one medication reminder concept."
+},
+{
+  category:"THE PROBLEM",
+  title:"The Problem: Medication Non-Adherence",
+  subtitle:"Remembering medication at the correct time can be challenging, especially when people have busy or complex daily routines.",
+  image:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "People may forget scheduled medication doses.",
+    "Busy daily routines can interrupt medication habits.",
+    "Some users may not notice that a scheduled dose was missed.",
+    "Caregivers may have difficulty checking medication status remotely.",
+    "A simple reminder and record system can help address these challenges."
+  ],
+  fact:"The project focuses on helping users remember and record scheduled medication events. It does not replace medical advice."
+},
+{
+  category:"OUR SOLUTION",
+  title:"The SilverCare Solution",
+  subtitle:"A connected reminder box that gives an alert, records a response and makes medication status easier to monitor.",
+  image:"https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "The ESP32 manages the reminder schedule.",
+    "The OLED screen displays the reminder information.",
+    "A buzzer provides an audible alert.",
+    "The user presses TAKEN after responding to the reminder.",
+    "If no response is received within the defined period, the event is recorded as MISSED.",
+    "The dashboard displays the medication records."
+  ],
+  fact:"The TAKEN and MISSED statuses are generated from the system's defined response rules."
+},
+{
+  category:"AI DEVELOPMENT",
+  title:"AI-Assisted Project Development",
+  subtitle:"AI tools can support learning, debugging and the development process.",
+  image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "Used AI assistance to explore ESP32 programming concepts.",
+    "Asked for help understanding hardware connections.",
+    "Reviewed example HTML, CSS and JavaScript structures.",
+    "Used debugging suggestions to investigate coding errors.",
+    "Checked generated code and adapted it to project requirements.",
+    "The final design and testing decisions remain part of the development work."
+  ],
+  fact:"AI is a development assistant, not a replacement for understanding, testing and verifying the code."
+},
+{
+  category:"HARDWARE",
+  title:"Hardware Components & Connections",
+  subtitle:"The physical reminder device combines a microcontroller with display, alert and user-input components.",
+  image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "ESP32: main microcontroller.",
+    "OLED display: connected through I2C, commonly using GPIO 21 and GPIO 22 on the selected board.",
+    "Buzzer: example signal pin GPIO 19.",
+    "Push button: example input pin GPIO 23.",
+    "Breadboard and jumper wires: used for prototyping.",
+    "All pin assignments must be checked against the actual board and circuit."
+  ],
+  fact:"The ESP32 coordinates the display, buzzer and button. Confirm the board's pinout and voltage requirements before wiring."
+},
+{
+  category:"SYSTEM LOGIC",
+  title:"System Flow & Programming Logic",
+  subtitle:"The software checks scheduled times and manages reminder events.",
+  image:"https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "Initialize the ESP32, display and input/output pins.",
+    "Read the current software clock or configured time source.",
+    "Compare the current time with the scheduled medication time.",
+    "Trigger the buzzer and display the reminder.",
+    "Wait for the user's TAKEN button response.",
+    "Record TAKEN or MISSED according to the timeout rule.",
+    "Prepare the updated status for the dashboard."
+  ],
+  fact:"A non-blocking timing method such as millis() can help the ESP32 manage reminders without freezing other tasks."
+},
+{
+  category:"WEB DASHBOARD",
+  title:"Web Dashboard & Live Monitoring",
+  subtitle:"A browser-based interface provides a simple way to inspect medication events and system status.",
+  image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "The ESP32 can create a Wi-Fi access point named SilverCare-Box.",
+    "A user connects a phone or computer to the device's Wi-Fi network.",
+    "The dashboard can be opened at 192.168.4.1 when configured as the ESP32 access-point address.",
+    "The page can display scheduled times and TAKEN or MISSED status.",
+    "Data exchange can use HTTP routes and JSON responses."
+  ],
+  fact:"The local dashboard can work over the ESP32's own Wi-Fi access point without requiring an internet connection."
+},
+{
+  category:"PYTHON ANALYTICS",
+  title:"Python Data Analytics",
+  subtitle:"Python can organize medication event records and turn them into readable summaries and charts.",
+  image:"https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "Requests: retrieve data from the dashboard when an HTTP endpoint is available.",
+    "JSON: exchange structured medication records.",
+    "Pandas: organize and analyze event data.",
+    "Matplotlib: create charts and visual reports.",
+    "Example output: dose_chart.png.",
+    "Analytics can summarize taken and missed events over time."
+  ],
+  fact:"The Python stage transforms recorded events into information that is easier to review."
+},
+{
+  category:"DEMONSTRATION",
+  title:"Demo Results & What We Learned",
+  subtitle:"A small simulated example demonstrates how medication records can be summarized.",
+  image:"https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "Example simulation period: 2 days.",
+    "Taken events: 4.",
+    "Missed events: 1.",
+    "Total scheduled events: 5.",
+    "Example adherence calculation: 4 ÷ 5 × 100 = 80%.",
+    "The team can evaluate hardware integration, software logic and data visualization."
+  ],
+  fact:"The 80% figure is an illustrative demo calculation, not a clinical result or evidence of improved medication adherence."
+},
+{
+  category:"DOCUMENTATION",
+  title:"References, Tools & Project Files",
+  subtitle:"The project combines embedded development, web technologies and Python tools.",
+  image:"https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1000&q=85",
+  points:[
+    "ESP32 technical documentation and board pinout.",
+    "Arduino IDE or the selected ESP32 development environment.",
+    "HTML, CSS and JavaScript for the dashboard.",
+    "Python documentation.",
+    "Pandas and Matplotlib documentation.",
+    "Project source files, circuit diagrams, screenshots and test records."
+  ],
+  fact:"A complete project submission should include verified references, source code, wiring information and actual test evidence."
+}
+];
+
+const grid = document.getElementById("slideGrid");
+const modal = document.getElementById("modal");
+const content = document.getElementById("slideContent");
+const progress = document.getElementById("progress");
+const pageNumber = document.getElementById("pageNumber");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let current = 0;
+
+const cardImages = [
+  "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=85"
+];
+
+const descriptions = [
+  "INTRODUCTION",
+  "THE PROBLEM",
+  "OUR SOLUTION",
+  "AI DEVELOPMENT",
+  "HARDWARE",
+  "PROGRAMMING",
+  "WEB DASHBOARD",
+  "PYTHON ANALYTICS",
+  "DEMONSTRATION",
+  "DOCUMENTATION"
+];
+
+const shortTitles = [
+  "Project Overview",
+  "Medication Challenges",
+  "SilverCare Solution",
+  "AI-Assisted Building",
+  "Electronic Components",
+  "System Logic & Flow",
+  "Live Monitoring",
+  "Data & Visualization",
+  "Results & Learning",
+  "References & Credits"
+];
+
+const shortDescriptions = [
+  "Meet the SilverCare system.",
+  "Why medication reminders matter.",
+  "How the reminder system works.",
+  "Using AI to support development.",
+  "ESP32, OLED, buzzer and buttons.",
+  "How software controls reminders.",
+  "Monitoring medication status.",
+  "Turning medication data into insights.",
+  "Testing and project outcomes.",
+  "Resources and project files."
+];
+
+slides.forEach((slide, index) => {
+  const card = document.createElement("button");
+  card.className = "slide-card";
+
+  card.innerHTML = `
+    <div class="card-image">
+      <img src="${cardImages[index]}" alt="${shortTitles[index]}" loading="lazy">
+      <span class="card-number">${String(index + 1).padStart(2,"0")}</span>
+    </div>
+    <div class="card-info">
+      <span>${descriptions[index]}</span>
+      <h3>${shortTitles[index]}</h3>
+      <p>${shortDescriptions[index]}</p>
+    </div>
+  `;
+
+  card.addEventListener("click", () => openSlide(index));
+  grid.appendChild(card);
+});
+
+function renderSlide() {
+  const slide = slides[current];
+
+  content.innerHTML = `
+    <div class="slide-label">${slide.category}</div>
+
+    <h1 class="slide-title">${slide.title}</h1>
+
+    <p class="slide-subtitle">${slide.subtitle}</p>
+
+    <div class="slide-layout">
+      <img class="slide-image" src="${slide.image}" alt="${slide.title}">
+
+      <div class="slide-points">
+        ${slide.points.map(point => `
+          <div class="point">${point}</div>
+        `).join("")}
+      </div>
+    </div>
+
+    <div class="key-fact">
+      <strong>✦ KEY FACT</strong>
+      <p>${slide.fact}</p>
+    </div>
+  `;
+
+  progress.style.width = ((current + 1) / slides.length * 100) + "%";
+
+  pageNumber.textContent =
+    String(current + 1).padStart(2,"0") +
+    " / " +
+    String(slides.length).padStart(2,"0");
+
+  prevBtn.disabled = current === 0;
+  nextBtn.textContent = current === slides.length - 1
+    ? "Finish ✓"
+    : "Next →";
+}
+
+function openSlide(index) {
+  current = index;
+  renderSlide();
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeSlide() {
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function nextSlide() {
+  if (current < slides.length - 1) {
+    current++;
+    renderSlide();
+  } else {
+    closeSlide();
+  }
+}
+
+function previousSlide() {
+  if (current > 0) {
+    current--;
+    renderSlide();
+  }
+}
+
+document.getElementById("closeBtn").addEventListener("click", closeSlide);
+document.getElementById("backdrop").addEventListener("click", closeSlide);
+nextBtn.addEventListener("click", nextSlide);
+prevBtn.addEventListener("click", previousSlide);
+
+document.addEventListener("keydown", event => {
+  if (!modal.classList.contains("active")) return;
+
+  if (event.key === "Escape") closeSlide();
+  if (event.key === "ArrowRight") nextSlide();
+  if (event.key === "ArrowLeft") previousSlide();
+});
+</script>
+
+</body>
+</html>

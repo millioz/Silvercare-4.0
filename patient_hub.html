@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block title %}SILVERCARE — My Care{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="panel-kicker">MY HEALTH ROUTINE</div><h1>My <span class="accent">care</span></h1><p class="muted">Talk to your care team, note how you feel, and get ready for your doctor visit.</p></div><a class="date-chip" href="/">← My medicines</a></section>
+<div id="pcToast" class="ct-toast" hidden></div>
+<section id="pcRoot" class="pc-root"><div class="loading-line">Loading…</div></section>
+<div class="medical-note"><strong>Important:</strong> This page does not give medical advice. If you feel very unwell, call your emergency number straight away. Never take extra doses to catch up on a missed one.</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='patient_hub.js') }}"></script>{% endblock %}

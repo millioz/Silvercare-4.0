@@ -1,0 +1,18 @@
+/* SilverCare CLINIC — extra styles (reuses ct-* classes from care_tools.css) */
+.pc-root{display:grid;gap:14px}
+.pc-card{background:var(--panel,#0c1728);border:1px solid var(--border,rgba(133,190,255,.16));border-radius:20px;padding:18px}
+.pc-card h2{font-size:18px;margin-bottom:8px;color:var(--white,#f4f8ff)}
+.pc-help{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc-big{padding:18px 12px;border-radius:16px;border:0;font:700 17px Inter,sans-serif;cursor:pointer;color:#fff;background:linear-gradient(90deg,#ff5d73,#d93a55)}
+.pc-big.alt{background:linear-gradient(90deg,#528cff,#2f6ee0)}
+.chat{display:grid;gap:8px;max-height:320px;overflow-y:auto;padding:6px 2px;margin-bottom:10px}
+.bubble{max-width:85%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.4;background:rgba(82,140,255,.18);color:var(--white,#f4f8ff)}
+.bubble.me{justify-self:end;background:rgba(86,232,255,.2)}
+.bubble small{display:block;opacity:.65;font-size:11px;margin-top:3px}
+.ct-chip.high{color:#ff7c8f;border-color:rgba(255,93,115,.6)}.ct-chip.medium{color:#ffd166;border-color:rgba(255,209,102,.5)}.ct-chip.low{color:#5df2a6;border-color:rgba(93,242,166,.4)}
+.ct-note{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:13px;background:rgba(82,140,255,.1)}
+.ct-note.warn{background:rgba(255,209,102,.12)}.ct-note.danger{background:rgba(255,93,115,.14)}.ct-note.good{background:rgba(93,242,166,.1)}
+.ct-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.sc-sos{position:fixed;right:14px;bottom:70px;z-index:50;width:56px;height:56px;border-radius:50%;border:0;font-size:24px;cursor:pointer;background:#ff3d5a;color:#fff;box-shadow:0 6px 18px rgba(255,61,90,.45)}
+html.sc-large .app-shell{zoom:1.2}
+.ct-badge.hub{background:#ff5d73}

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050a13">
+  <title>{% block title %}SILVERCARE{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+<div class="background"><div class="grid"></div><div class="glow one"></div><div class="glow two"></div></div>
+<header class="topbar"><a class="logo" href="/"><span class="logo-icon">S</span><span>SILVERCARE</span></a><div class="top-right"><span class="live-dot"></span><span class="top-label">SMART MEDICATION SYSTEM</span>{% if user %}<span class="user-chip">{{ user.name }}</span><a class="logout-link" href="{{ url_for('change_password') }}">PASSWORD</a><a class="logout-link" href="{{ url_for('logout') }}">SIGN OUT</a>{% endif %}</div></header>
+<main class="app-shell">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+<footer class="site-footer">SILVERCARE · ESP32 · PYTHON · SQLITE <span>Medication support, not medical advice.</span></footer>
+<script src="{{ url_for('static', filename='app.js') }}"></script>{% block scripts %}{% endblock %}
+</body></html>

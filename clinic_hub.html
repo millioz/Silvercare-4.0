@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block title %}SILVERCARE — Clinic Hub{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="panel-kicker">DOCTOR · NURSE · CAREGIVER WORKSPACE</div><h1>Clinic <span class="accent">hub</span></h1><p class="muted">Triage, messages, side-effect reports, refills and complete patient files.</p></div><div class="date-chip"><span class="live-dot"></span> {{ user.role|upper }}</div></section>
+<nav id="chTabs" class="ct-tabs"></nav>
+<div id="chToast" class="ct-toast" hidden></div>
+<section id="chRoot" class="ct-root"><div class="loading-line">Loading…</div></section>
+<div class="medical-note"><strong>Reminder:</strong> Insights are counted from confirmations and are not clinical judgments. AI drafts must be reviewed by a person. Do not use this tool to advise changing, skipping or repeating a dose.</div>
+{% endblock %}
+{% block scripts %}<script>window.SC_ROLE='{{ user.role }}';</script><script src="{{ url_for('static', filename='clinic.js') }}"></script>{% endblock %}

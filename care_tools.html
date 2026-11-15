@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block title %}SILVERCARE — Care Tools{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="panel-kicker">CARE OPERATIONS / EXTENDED TOOLS</div><h1>Care <span class="accent">tools</span></h1><p class="muted">Alerts, medication management, accounts, refill tracking and exports.</p></div><div class="date-chip"><span class="live-dot"></span> {{ user.role|upper }}</div></section>
+<nav id="ctTabs" class="ct-tabs"></nav>
+<div id="ctToast" class="ct-toast" hidden></div>
+<section id="ctRoot" class="ct-root"><div class="loading-line">Loading…</div></section>
+<div class="medical-note"><strong>Reminder:</strong> Statuses are operational records, not clinical judgments. Never use this tool to advise changing, skipping or repeating a dose — contact the prescriber or a pharmacist.</div>
+{% endblock %}
+{% block scripts %}<script>window.SC_ROLE='{{ user.role }}';</script><script src="{{ url_for('static', filename='care_tools.js') }}"></script>{% endblock %}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Medication report — {{ r.patient }}</title>
+<!-- care_tools.css clinic_enhance.js : marker comment so the add-on scripts are NOT injected into this standalone page -->
+<style>
+ body{font:15px/1.5 -apple-system,Segoe UI,Inter,sans-serif;color:#14202e;background:#f4f7fb;margin:0;padding:18px}
+ .page{max-width:860px;margin:auto;background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 24px rgba(10,30,60,.08)}
+ h1{margin:0 0 2px;font-size:24px}h2{font-size:16px;margin:22px 0 8px;padding-bottom:4px;border-bottom:2px solid #dbe6f3;color:#0b4f8a}
+ .muted{color:#5b6b7e;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+ .stat{background:#f0f6fd;border-radius:10px;padding:10px 12px}.stat b{display:block;font-size:22px}
+ table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #e5edf6;vertical-align:top}
+ th{font-size:12px;color:#5b6b7e;text-transform:uppercase}.warn{color:#b3261e;font-weight:600}.good{color:#1b7a46}
+ .banner{background:#fff4d6;border:1px solid #f0cf72;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:13px}
+ .alert{background:#fde8e8;border:1px solid #f1a3a3;border-radius:10px;padding:10px 12px;margin:8px 0}
+ .bar{height:8px;background:#e5edf6;border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:#2b8cdd}
+ button{font:600 14px inherit;padding:10px 16px;border-radius:10px;border:0;background:#0b4f8a;color:#fff;cursor:pointer}
+ .foot{margin-top:24px;font-size:12px;color:#5b6b7e;border-top:1px solid #e5edf6;padding-top:10px}
+ @media print{body{background:#fff;padding:0}.page{box-shadow:none;padding:0}.noprint{display:none}}
+</style></head><body><div class="page">
+{% if shared %}<div class="banner">🔒 Read-only link shared by the patient or care team. It expires {{ shared.expires }} and can be revoked at any time. Please do not forward it.</div>{% endif %}
+<div class="noprint" style="float:right"><button onclick="window.print()">Print / Save as PDF</button></div>
+<h1>Medication report</h1>
+<div class="muted">{{ r.patient }} · last {{ r.days }} days · generated {{ r.generated }}</div>
+
+{% if r.safety %}{% for s in r.safety %}<div class="alert">⚠️ {{ s.text }}</div>{% endfor %}{% endif %}
+
+<h2>Summary</h2>
+<p>{{ r.brief }}</p>
+<div class="grid">
+ <div class="stat"><span class="muted">Confirmed</span><b>{{ r.a.taken }}/{{ r.a.decided }}</b></div>
+ <div class="stat"><span class="muted">Confirmation rate</span><b>{{ (r.a.rate ~ '%') if r.a.rate is not none else '—' }}</b></div>
+ <div class="stat"><span class="muted">Missed window</span><b>{{ r.a.missed }}</b></div>
+ <div class="stat"><span class="muted">Clean-day streak</span><b>{{ r.a.streak_days }}</b></div>
+</div>
+{% if r.a.notes %}<ul>{% for n in r.a.notes %}<li class="{{ 'warn' if n.level=='warn' else 'good' if n.level=='good' else '' }}">{{ n.text }}</li>{% endfor %}</ul>{% endif %}
+
+<h2>When are doses confirmed?</h2>
+<table><tr><th>Time of day</th><th>Confirmed</th><th></th></tr>
+{% for b in r.a.by_time_of_day %}<tr><td>{{ b.name }}</td><td>{{ b.taken }}/{{ b.decided }} ({{ b.rate }}%)</td><td style="width:40%"><div class="bar"><i style="width:{{ b.rate }}%"></i></div></td></tr>{% else %}<tr><td colspan="3" class="muted">No data yet.</td></tr>{% endfor %}</table>
+
+<h2>Current medicines and reminder times</h2>
+<table><tr><th>Medicine</th><th>Label / dosage (as recorded)</th><th>Times</th><th>Supply</th></tr>
+{% for m in r.meds %}<tr><td><b>{{ m.name }}</b>{% if m.instructions %}<div class="muted">{{ m.instructions }}</div>{% endif %}</td><td>{{ m.dosage or '—' }}</td><td>{{ m.times|join(', ') }}</td>
+<td>{% if m.days_left is not none %}<span class="{{ 'warn' if m.low else '' }}">≈ {{ m.days_left }} days</span>{% else %}<span class="muted">not tracked</span>{% endif %}</td></tr>{% else %}<tr><td colspan="4" class="muted">No active medicines.</td></tr>{% endfor %}</table>
+
+<h2>Allergies, conditions and contacts</h2>
+<table>
+<tr><th>Allergies</th><td>{{ r.profile.allergies or 'Not recorded' }}</td></tr>
+<tr><th>Conditions</th><td>{{ r.profile.conditions or 'Not recorded' }}</td></tr>
+<tr><th>Doctor</th><td>{{ r.profile.doctor_name or '—' }} {{ r.profile.doctor_contact }}</td></tr>
+<tr><th>Pharmacy</th><td>{{ r.profile.pharmacy or '—' }}</td></tr>
+{% if r.contact %}<tr><th>Emergency contact</th><td>{{ r.contact.emergency_name }} {{ r.contact.emergency_phone }}</td></tr>{% endif %}</table>
+
+<h2>Symptoms / side effects reported by the patient</h2>
+{% if r.symptoms %}<table><tr><th>Date</th><th>Severity (1–5)</th><th>Medicine</th><th>Details</th></tr>
+{% for s in r.symptoms %}<tr><td>{{ s.created_at[:16]|replace('T',' ') }}</td><td class="{{ 'warn' if s.severity>=4 else '' }}">{{ s.severity }}</td><td>{{ s.medication or '—' }}</td><td>{{ s.body }}</td></tr>{% endfor %}</table>
+{% else %}<p class="muted">None reported.</p>{% endif %}
+
+<h2>Questions the patient wants to ask</h2>
+{% if r.questions %}<ul>{% for q in r.questions %}<li>{{ q.question }}{% if q.answer %} — <i class="good">answered: {{ q.answer }}</i>{% endif %}</li>{% endfor %}</ul>{% else %}<p class="muted">None.</p>{% endif %}
+
+<h2>Missed-window reminders (last {{ [r.days,30]|min }} days)</h2>
+{% if r.missed %}<table><tr><th>Scheduled</th><th>Medicine</th></tr>{% for m in r.missed %}<tr><td>{{ m.scheduled_for|replace('T',' ') }}</td><td>{{ m.name }}</td></tr>{% endfor %}</table>{% else %}<p class="muted">None.</p>{% endif %}
+
+{% if r.appts %}<h2>Upcoming appointments</h2><ul>{% for a in r.appts %}<li>{{ a.starts_at|replace('T',' ') }} — {{ a.title }} {{ a.with_name }} {{ a.location }}</li>{% endfor %}</ul>{% endif %}
+
+<div class="foot"><b>Important:</b> This report counts reminder confirmations made by the patient or a device. A “confirmed” entry does not prove the medicine was swallowed and “missed” does not prove it was not taken. It is not a diagnosis and does not recommend any change to medicines — decisions belong to the prescriber and patient. In an emergency call {{ r.emergency }}.</div>
+</div></body></html>
