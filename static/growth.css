@@ -1,0 +1,24 @@
+/* SilverCare GROWTH — layout only. Colours come from the existing variables (--cyan, --green, --muted …) so the look is unchanged. */
+.g-root{display:grid;gap:14px}
+.g-hero{border-color:rgba(85,223,255,.28)!important;background:linear-gradient(145deg,rgba(15,44,66,.95),rgba(8,22,40,.98))!important}
+.g-hero.g-due{box-shadow:0 0 0 1px var(--cyan),0 0 28px rgba(85,223,255,.18);animation:gpulse 2s ease-in-out infinite}
+@keyframes gpulse{50%{box-shadow:0 0 0 1px var(--cyan),0 0 42px rgba(85,223,255,.34)}}
+.g-big{font-size:clamp(26px,6vw,40px);font-weight:900;letter-spacing:-1px;color:#effaff;margin:8px 0 4px}
+.g-big small{font-size:.45em;color:var(--muted);font-weight:600;letter-spacing:0}
+.g-sub{color:#a9d9ed;font-weight:700;margin-bottom:14px}
+.g-near{border-color:rgba(85,223,255,.45)!important;background:rgba(85,223,255,.05)!important}
+.g-prog{height:6px;border-radius:6px;background:rgba(85,223,255,.1);overflow:hidden;margin:10px 0 6px}
+.g-prog i{display:block;height:100%;background:linear-gradient(90deg,#55dfff,#398cff)}
+.g-reasons{margin:8px 0 0 18px;font-size:12px;color:#b5c9da;line-height:1.6}
+.g-line{margin-top:8px;font-size:13px;color:#e8f5ff}
+.g-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.g-metrics .metric-card{min-height:86px;padding:13px 15px}.g-metrics .metric-card strong{font-size:24px;margin-top:8px}
+.g-sec{margin-top:14px;font-size:9px;letter-spacing:1.7px;color:#7795ad;font-weight:800}
+.g-ai{margin-top:10px;padding:12px;border-radius:10px;background:rgba(85,223,255,.05);border:1px dashed var(--border);font-size:13px;line-height:1.6;white-space:pre-wrap}
+.g-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.g-ask{display:flex;gap:8px;margin-top:6px}.g-ask input{flex:1;min-width:0;min-height:42px;padding:10px 12px;border:1px solid rgba(130,190,230,.18);border-radius:8px;background:#071321;color:#eaf7ff;outline:none}
+.g-ask input:focus{border-color:rgba(85,223,255,.65)}
+.g-log{width:100%;min-width:0;margin-top:8px}.g-log td,.g-log th{padding:7px 8px}
+.g-sm{font-size:10px;color:var(--muted)}
+.g-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:700px){.g-metrics{grid-template-columns:repeat(2,1fr)}}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}SILVERCARE — Command center{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="panel-kicker">CARE TEAM · LIVE</div><h1>Command <span class="accent">center</span></h1><p class="muted">Who needs you now, each patient's nearest dose, box status and an AI hand-over. Updates every second.</p></div><div class="date-chip"><span class="live-dot"></span> {{ user.role|upper }}</div></section>
+<div id="gToast" class="ct-toast" hidden></div>
+<section id="gRoot" class="g-root" data-mode="staff"><div class="loading-line">Loading…</div></section>
+<div class="medical-note"><strong>Reminder:</strong> Counts come from confirmations (web or box button) — they do not prove a medicine was swallowed. AI text is a draft for a person to review. Never use this page to advise changing, skipping or repeating a dose.</div>
+{% endblock %}

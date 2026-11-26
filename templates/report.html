@@ -36,7 +36,7 @@
 
 <h2>When are doses confirmed?</h2>
 <table><tr><th>Time of day</th><th>Confirmed</th><th></th></tr>
-{% for b in r.a.by_time_of_day %}<tr><td>{{ b.name }}</td><td>{{ b.taken }}/{{ b.decided }} ({{ b.rate }}%)</td><td style="width:40%"><div class="bar"><i style="width:{{ b.rate }}%"></i></div></td></tr>{% else %}<tr><td colspan="3" class="muted">No data yet.</td></tr>{% endfor %}</table>
+{% for b in r.a.by_time_of_day %}<tr><td>{{ b.name }}</td><td>{{ b.taken }}/{{ b.decided }} ({{ b.rate }}%)</td><td style="width:40%"><div class="bar"><i style="width: brate /*  */"></i></div></td></tr>{% else %}<tr><td colspan="3" class="muted">No data yet.</td></tr>{% endfor %}</table>
 
 <h2>Current medicines and reminder times</h2>
 <table><tr><th>Medicine</th><th>Label / dosage (as recorded)</th><th>Times</th><th>Supply</th></tr>

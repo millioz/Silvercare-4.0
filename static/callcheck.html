@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SilverCare — call check</title>
+<style>
+body{margin:0;padding:22px;background:#050a13;color:#eaf7ff;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;max-width:640px;margin:auto}
+h1{font-size:26px;margin:6px 0 4px}h1 span{color:#55dfff}p.s{color:#8aa3b8;margin:0 0 18px;font-size:13px}
+.r{display:flex;gap:10px;padding:11px 14px;margin:7px 0;border:1px solid rgba(130,190,230,.14);border-radius:12px;background:rgba(255,255,255,.04)}
+.r b{flex:none;width:22px}.r small{display:block;color:#8aa3b8;font-size:12px;margin-top:2px}
+button{margin:6px 8px 6px 0;padding:12px 16px;border-radius:12px;border:1px solid rgba(85,223,255,.35);background:rgba(85,223,255,.1);color:#d9f8ff;font-size:14px;font-weight:700}
+video{width:100%;border-radius:14px;margin-top:10px;background:#071321}audio{width:100%;margin-top:10px}
+</style>
+<h1>Call &amp; voice <span>check</span></h1><p class="s">Open this page in the same browser you use for SilverCare. Then tap the test buttons. · SilverCare သုံးတဲ့ browser မှာပဲ ဖွင့်ပြီး ခလုတ်တွေကို နှိပ်ကြည့်ပါ။</p>
+<div id="res"></div>
+<button id="tMic">🎤 Test microphone</button><button id="tCam">🎥 Test camera</button><button id="tRec">⏺ Test voice message (3 s)</button><button id="tNet">🌐 Test call network</button>
+<video id="v" autoplay playsinline muted hidden></video><audio id="a" controls hidden></audio>
+<script>
+const res = document.getElementById('res');
+const row = (ok, t, d) => { const el = document.createElement('div'); el.className = 'r'; el.innerHTML = '<b>' + (ok === null ? 'ℹ️' : ok ? '✅' : '❌') + '</b><div>' + t + (d ? '<small>' + d + '</small>' : '') + '</div>'; res.appendChild(el); return el; };
+const why = e => { const n = e && e.name; return n === 'NotAllowedError' || n === 'SecurityError' ? 'Permission blocked. iPad: tap “aA” in the address bar → Website Settings → Camera/Microphone → Allow, then reload. · ခွင့်ပြုချက်ပိတ်ထားပါတယ် — aA → Website Settings မှာ Allow ပြောင်းပါ။' : n === 'NotFoundError' ? 'No camera/microphone found. · camera/mic မတွေ့ပါ။' : n === 'NotReadableError' ? 'Another app is using it. Close that app. · တခြား app သုံးနေပါတယ်။' : String(e && (e.message || e.name) || e); };
+row(window.isSecureContext, 'Secure address (https)', window.isSecureContext ? location.origin : 'Calls need https:// — you are on ' + location.origin);
+row(window.top === window.self, 'Opened directly (not inside another page)', window.top === window.self ? '' : 'This page is inside a frame/preview. Open the address directly in Safari or Chrome.');
+row(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia), 'Camera/microphone API available', 'Needed for video, audio calls and voice messages.');
+row(!!window.RTCPeerConnection, 'Live call technology (WebRTC)', '');
+const mimes = window.MediaRecorder ? ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg'].filter(m => MediaRecorder.isTypeSupported(m)) : [];
+row(!!window.MediaRecorder && mimes.length > 0, 'Voice-message recorder', window.MediaRecorder ? 'Formats: ' + mimes.join(', ') : 'MediaRecorder missing — update Safari/iPadOS or use Chrome.');
+(async () => { try { for (const n of ['microphone', 'camera']) { const p = await navigator.permissions.query({ name: n }); row(p.state !== 'denied', 'Permission: ' + n + ' = ' + p.state, p.state === 'denied' ? 'Blocked for this site. Change it in the browser’s website settings.' : ''); } } catch (e) { } })();
+const stop = s => s && s.getTracks().forEach(t => t.stop());
+document.getElementById('tMic').onclick = async () => {
+  try { const s = await navigator.mediaDevices.getUserMedia({ audio: true }); const c = new (window.AudioContext || window.webkitAudioContext)(), an = c.createAnalyser(); c.createMediaStreamSource(s).connect(an); const d = new Uint8Array(an.fftSize); let max = 0; const t0 = Date.now();
+    const el = row(null, 'Speak now for 3 seconds…', ''); await new Promise(r => { const i = setInterval(() => { an.getByteTimeDomainData(d); d.forEach(v => { max = Math.max(max, Math.abs(v - 128)); }); if (Date.now() - t0 > 3000) { clearInterval(i); r(); } }, 50); });
+    stop(s); el.remove(); row(max > 6, 'Microphone ' + (max > 6 ? 'works' : 'opened but heard nothing'), max > 6 ? 'Sound level detected.' : 'Check that the mic is not muted.'); } catch (e) { row(false, 'Microphone failed', why(e)); }
+};
+document.getElementById('tCam').onclick = async () => {
+  try { const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } }); const v = document.getElementById('v'); v.hidden = false; v.srcObject = s; row(true, 'Camera works', 'You should see yourself below.'); setTimeout(() => { stop(s); }, 8000); } catch (e) { row(false, 'Camera failed', why(e)); }
+};
+document.getElementById('tRec').onclick = async () => {
+  try { const s = await navigator.mediaDevices.getUserMedia({ audio: true }); const m = mimes[0] || ''; const r = new MediaRecorder(s, m ? { mimeType: m } : {}); const ch = []; r.ondataavailable = e => e.data.size && ch.push(e.data);
+    r.onstop = () => { stop(s); const a = document.getElementById('a'); a.hidden = false; a.src = URL.createObjectURL(new Blob(ch, { type: r.mimeType })); row(ch.length > 0, 'Voice message recorded (' + (r.mimeType || 'default') + ')', 'Press play below to hear it.'); };
+    r.start(250); row(null, 'Recording 3 seconds…', ''); setTimeout(() => r.stop(), 3000); } catch (e) { row(false, 'Voice recording failed', why(e)); }
+};
+document.getElementById('tNet').onclick = async () => {
+  const el = row(null, 'Testing call network (5 s)…', '');
+  try { let servers = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }]; try { const r = await fetch('/api/chat/ice', { credentials: 'same-origin' }); if (r.ok) servers = (await r.json()).iceServers; } catch (e) { }
+    const pc = new RTCPeerConnection({ iceServers: servers }); const types = new Set(); pc.onicecandidate = e => { if (e.candidate) { const m = / typ (\w+)/.exec(e.candidate.candidate); if (m) types.add(m[1]); } };
+    pc.createDataChannel('x'); await pc.setLocalDescription(await pc.createOffer()); await new Promise(r => setTimeout(r, 5000)); pc.close(); el.remove(); const t = [...types];
+    row(t.includes('srflx') || t.includes('relay'), 'Call network: ' + (t.join(', ') || 'nothing found'), t.includes('relay') ? 'TURN relay works — calls should connect on almost any network.' : t.includes('srflx') ? 'STUN works, but no TURN relay. Calls work on most home WiFi; they can fail on mobile data/strict networks.' : 'STUN blocked/unreachable here. Calls may only work on the same WiFi. A TURN server is needed.'); } catch (e) { el.remove(); row(false, 'Network test failed', why(e)); }
+};
+</script></html>
